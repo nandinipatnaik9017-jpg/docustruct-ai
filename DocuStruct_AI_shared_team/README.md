@@ -24,12 +24,16 @@ python -m pip install -r requirements.txt
 python -m streamlit run app.py
 ```
 
-## Team workflow
-- Keep `app.py` (UI, validation, review, exports) and `extractor.py` (PDF text + Ollama AI) in the same folder.
-- Do not send or share the `.venv` folder; each teammate creates their own environment.
-- Use GitHub to collaborate on one live codebase. A ZIP is only a snapshot and does not sync changes between computers.
-- Before editing, pull the latest changes; after editing, commit and push your changes.
-- Do not overwrite a working copy until the shared version has been tested.
+## Team Workflow
+- We use GitHub to share our project files and keep both our work updated.
+- Before making changes, we check for the latest updates from our teammate.
+- We divide the work between us so that we can develop different parts of the project.
+- Each of us tests our changes locally before sharing them.
+- Once the changes are ready, we push them to GitHub and update the shared project.
+- We check the updated version together to make sure everything works properly.
+- We keep our Python virtual environments separate on our own computers.
+- We avoid uploading unnecessary files such as `.venv` and `__pycache__`.
+- If something goes wrong after an update, we check the changes and fix the issue before continuing.
 
 ## Tests
 `python test_ollama.py` checks the local Ollama API.
