@@ -129,6 +129,5 @@ This project is a prototype and is not a replacement for professional financial 
 
 ## Contributors
 Built collaboratively as a hackathon project.
-
-## License
-Add the license selected for this repository here. If you intend to release the project as open source, choose an appropriate license and include its license file in the repository.
+Monalisa
+Nandini Patnaik
