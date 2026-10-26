@@ -1,40 +1,62 @@
 # DocuStruct AI — Shared Team Project
 
-This folder combines the Streamlit UI/validation/review/export app with the backend Ollama PDF extractor.
+This folder contains the main application files for DocuStruct AI, including the Streamlit interface, invoice validation, human review, data export, and Ollama-based PDF extraction.
 
-## Before running
-- Install Python.
-- Install Ollama and pull the model: `ollama pull qwen3.5:4b`
-- Start Ollama if it is not running.
+## Requirements
 
-## Run on Windows
-Open a terminal in this folder and run:
+- Python
+- Ollama
+- The `qwen3.5:4b` model
+
+## Run the Application on Windows
+
+Open PowerShell in this folder and run each command separately.
+
+**1. Create a virtual environment**
 
 ```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-python -m streamlit run app.py
+py -m venv .venv
 ```
 
-If PowerShell blocks activation, use Command Prompt:
-```bat
-.venv\Scripts\activate.bat
-python -m pip install -r requirements.txt
-python -m streamlit run app.py
+**2. Activate the environment**
+
+```powershell
+.\.venv\Scripts\Activate.ps1
 ```
+
+**3. Install dependencies**
+
+```powershell
+py -m pip install -r requirements.txt
+```
+
+**4. Download the AI model**
+
+```powershell
+ollama pull qwen3.5:4b
+```
+
+**5. Start the application**
+
+```powershell
+py -m streamlit run app.py
+```
+
+Open the local URL shown in the terminal, usually `http://localhost:8501`.
+
+## Testing
+
+Run these commands from this folder to test the Ollama connection and PDF extraction:
+
+```powershell
+py test_ollama.py
+py test_extractor.py
+```
+
+Ollama must be running, and the model must be installed before testing AI extraction.
 
 ## Team Workflow
-- We use GitHub to share our project files and keep both our work updated.
-- Before making changes, we check for the latest updates from our teammate.
-- We divide the work between us so that we can develop different parts of the project.
-- Each of us tests our changes locally before sharing them.
-- Once the changes are ready, we push them to GitHub and update the shared project.
-- We check the updated version together to make sure everything works properly.
-- We keep our Python virtual environments separate on our own computers.
-- We avoid uploading unnecessary files such as `.venv` and `__pycache__`.
-- If something goes wrong after an update, we check the changes and fix the issue before continuing.
 
-## Tests
-`python test_ollama.py` checks the local Ollama API.
-`python test_extractor.py` extracts the included sample invoice (requires Ollama running and model installed).
+We use GitHub to share our project files and keep our work updated. We divide tasks between team members, test our changes locally, and share completed updates through GitHub. Each of us maintains a separate Python virtual environment. We also avoid uploading unnecessary files such as `.venv` and `__pycache__`.
+
+Before continuing development, we check the latest shared changes and make sure the application still works after updates.
