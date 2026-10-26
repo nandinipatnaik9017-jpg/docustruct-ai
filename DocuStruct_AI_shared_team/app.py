@@ -14,66 +14,461 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+
 # ---------- DESIGN ----------
 st.markdown("""
 <style>
+    /* Main page */
+    .stApp {
+        background: #F7F9FC;
+        color: #1E293B;
+    }
+
     .block-container {
-        padding-top: 1.8rem;
+        padding-top: 1.5rem;
         padding-bottom: 2.5rem;
-        max-width: 1250px;
+        max-width: 1320px;
     }
 
+    /* Sidebar */
     [data-testid="stSidebar"] {
-        border-right: 1px solid rgba(128,128,128,0.2);
+        background: #FFFFFF;
+        border-right: 1px solid #E2E8F0;
     }
 
+    [data-testid="stSidebar"] h2,
+    [data-testid="stSidebar"] h3 {
+        color: #163A5F;
+    }
+
+    /* Hero banner */
     .hero {
-        padding: 1.6rem;
-        border-radius: 16px;
-        background: linear-gradient(120deg, #173B57, #286A83);
-        color: white;
-        margin-bottom: 1.2rem;
+        padding: 2rem;
+        border: 1px solid #DCE8F5;
+        border-radius: 18px;
+        background: linear-gradient(120deg, #FFFFFF 0%, #EAF3FF 100%);
+        color: #163A5F;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 18px rgba(30, 64, 110, 0.05);
     }
 
     .hero h1 {
-        color: white;
-        margin-bottom: 0.35rem;
+        color: #163A5F;
+        font-size: 2.25rem;
+        font-weight: 750;
+        margin-top: 0.5rem;
+        margin-bottom: 0.45rem;
     }
 
     .hero p {
-        color: #E4EFF6;
+        color: #52657A;
+        font-size: 1rem;
         margin-bottom: 0;
     }
 
+    /* Workflow section labels */
     .section-label {
-        font-size: 0.82rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        color: #4486A2;
-        text-transform: uppercase;
-        margin-bottom: 0.3rem;
+        display: inline-block !important;
+        background: #E8F0FE !important;
+        color: #1D4ED8 !important;
+        border: 1px solid #C7D7FE !important;
+        padding: 6px 12px !important;
+        border-radius: 8px !important;
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        letter-spacing: 1px !important;
+        text-transform: uppercase !important;
+        margin-bottom: 10px !important;
+        opacity: 1 !important;
     }
 
+    /* Dashboard metrics */
     div[data-testid="stMetric"] {
-        border: 1px solid rgba(128,128,128,0.22);
-        padding: 15px;
-        border-radius: 12px;
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        padding: 18px;
+        border-radius: 14px;
+        box-shadow: 0 3px 12px rgba(30, 64, 110, 0.035);
     }
 
+    div[data-testid="stMetricLabel"] {
+        color: #64748B;
+    }
+
+    div[data-testid="stMetricValue"] {
+        color: #163A5F;
+        font-weight: 750;
+    }
+
+    /* Buttons */
+    div.stButton > button,
+    div.stDownloadButton > button,
+    div[data-testid="stFormSubmitButton"] > button {
+        border-radius: 10px;
+        font-weight: 650;
+        min-height: 2.7rem;
+        transition: all 0.2s ease;
+    }
+
+    div.stButton > button[kind="primary"],
+    div[data-testid="stFormSubmitButton"] > button[kind="primary"] {
+        background: #2563EB;
+        border-color: #2563EB;
+        color: #FFFFFF;
+    }
+
+    div.stButton > button:hover,
+    div.stDownloadButton > button:hover {
+        border-color: #2563EB;
+        color: #1D4ED8;
+    }
+
+    /* Input fields */
+    div[data-baseweb="input"] > div,
+    div[data-baseweb="select"] > div,
+    div[data-baseweb="textarea"] > div {
+        border-radius: 9px;
+    }
+
+    /* Informational note */
+    .note {
+        border: 1px solid #DCE8F5;
+        border-radius: 12px;
+        padding: 14px 16px;
+        background: #EFF6FF;
+        color: #334155;
+        font-size: 0.92rem;
+        line-height: 1.6;
+    }
+
+    /* Dividers */
+    hr {
+        border-color: #E2E8F0;
+    }
+
+    /* Responsive headings */
+    @media (max-width: 768px) {
+        .hero {
+            padding: 1.25rem;
+        }
+
+        .hero h1 {
+            font-size: 1.7rem;
+        }
+
+        .block-container {
+            padding-top: 1rem;
+        }
+    }
+
+    /* Force light backgrounds for common Streamlit components */
+    [data-testid="stAppViewContainer"],
+    [data-testid="stHeader"] {
+        background-color: #F7F9FC;
+    }
+
+    [data-testid="stMain"],
+    [data-testid="stMainBlockContainer"] {
+        background-color: #F7F9FC;
+        color: #1E293B;
+    }
+
+    /* Cards and expandable sections */
+    [data-testid="stExpander"],
+    [data-testid="stExpander"] details,
+    [data-testid="stFileUploader"],
+    [data-testid="stFileUploader"] section {
+        background-color: #FFFFFF;
+        color: #1E293B;
+        border-color: #E2E8F0;
+    }
+
+    /* Form and input containers */
+    [data-testid="stForm"],
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        background-color: #FFFFFF;
+        border-color: #E2E8F0;
+    }
+
+    /* Text input backgrounds */
+    input,
+    textarea,
+    [data-baseweb="input"] input {
+        background-color: #FFFFFF !important;
+        color: #1E293B !important;
+        -webkit-text-fill-color: #1E293B !important;
+    }
+
+    /* Code blocks and preformatted text */
+    [data-testid="stCode"],
+    pre {
+        background-color: #F1F5F9 !important;
+        color: #1E293B !important;
+    }
+
+    /* Fix text contrast across the light interface */
+    .stApp,
+    [data-testid="stAppViewContainer"],
+    [data-testid="stMain"],
+    [data-testid="stMainBlockContainer"] {
+        color: #1E293B !important;
+    }
+
+    /* Sidebar text */
+    [data-testid="stSidebar"] p,
+    [data-testid="stSidebar"] span,
+    [data-testid="stSidebar"] label,
+    [data-testid="stSidebar"] li,
+    [data-testid="stSidebar"] small {
+        color: #334155 !important;
+    }
+
+    [data-testid="stSidebar"] [data-testid="stCaptionContainer"] {
+        color: #64748B !important;
+    }
+
+    /* Metric labels and values */
+    [data-testid="stMetricLabel"],
+    [data-testid="stMetricLabel"] p {
+        color: #64748B !important;
+    }
+
+    [data-testid="stMetricValue"],
+    [data-testid="stMetricValue"] div {
+        color: #163A5F !important;
+    }
+
+    /* Upload area */
+    [data-testid="stFileUploader"] {
+        background: #FFFFFF !important;
+        border: 1px solid #DCE4EF !important;
+        border-radius: 12px !important;
+    }
+
+    [data-testid="stFileUploader"] *,
+    [data-testid="stFileUploader"] section,
+    [data-testid="stFileUploader"] small {
+        color: #334155 !important;
+    }
+
+    [data-testid="stFileUploader"] button {
+        background: #EAF2FF !important;
+        color: #1D4ED8 !important;
+        border: 1px solid #BFD4FE !important;
+    }
+
+    /* Normal buttons */
     div.stButton > button,
     div.stDownloadButton > button {
-        border-radius: 9px;
-        font-weight: 600;
+        background: #FFFFFF;
+        color: #1D4ED8 !important;
+        border: 1px solid #CBD5E1;
     }
 
-    .note {
-        border-radius: 10px;
-        padding: 12px 14px;
-        background: rgba(128,128,128,0.09);
-        font-size: 0.9rem;
+    div.stButton > button[kind="primary"] {
+        background: #2563EB !important;
+        color: #FFFFFF !important;
     }
+
+    /* Captions and secondary text */
+    [data-testid="stCaptionContainer"],
+    [data-testid="stCaptionContainer"] p {
+        color: #64748B !important;
+    }
+
+    /* Success messages */
+    [data-testid="stAlert"] p {
+        color: #1E293B !important;
+    }
+
+    /* Improve sidebar brand title and subtitle visibility */
+    [data-testid="stSidebar"] h2 {
+        color: #163A5F !important;
+        font-weight: 750 !important;
+    }
+
+    [data-testid="stSidebar"] [data-testid="stCaptionContainer"],
+    [data-testid="stSidebar"] [data-testid="stCaptionContainer"] p {
+        color: #64748B !important;
+        opacity: 1 !important;
+    }
+
+    /* Sidebar subtitle: darker and easier to read */
+    [data-testid="stSidebar"] [data-testid="stCaptionContainer"] {
+        color: #475569 !important;
+        opacity: 1 !important;
+        font-size: 0.9rem !important;
+        font-weight: 500 !important;
+    }
+
+    [data-testid="stSidebar"] [data-testid="stCaptionContainer"] p {
+        color: #475569 !important;
+        opacity: 1 !important;
+    }
+
+    /* PDF uploader: add comfortable inner spacing */
+    [data-testid="stFileUploader"] {
+        padding: 16px !important;
+        box-sizing: border-box !important;
+        border-radius: 12px !important;
+    }
+
+    [data-testid="stFileUploader"] section {
+        padding: 12px !important;
+        box-sizing: border-box !important;
+        border-radius: 8px !important;
+    }
+
+    [data-testid="stFileUploader"] label {
+        padding: 4px 6px !important;
+        color: #334155 !important;
+    }
+
+    [data-testid="stFileUploader"] small {
+        color: #64748B !important;
+    }
+
+/* Fix uploaded PDF filename visibility */
+[data-testid="stFileUploader"] {
+    background-color: #ffffff !important;
+    color: #1e293b !important;
+}
+
+[data-testid="stFileUploader"] section {
+    background-color: #f8fafc !important;
+    color: #1e293b !important;
+}
+
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
+    background-color: #ffffff !important;
+    color: #1e293b !important;
+    border: 1px solid #dbe3ef !important;
+    border-radius: 8px !important;
+}
+
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] * {
+    color: #1e293b !important;
+}
+
+/* Fix uploaded PDF card and filename contrast */
+[data-testid="stFileUploaderFile"] {
+    background-color: #ffffff !important;
+    border: 1px solid #dbe3ef !important;
+    border-radius: 10px !important;
+}
+
+[data-testid="stFileUploaderFile"],
+[data-testid="stFileUploaderFile"] * {
+    color: #1e293b !important;
+}
+
+[data-testid="stFileUploaderFile"] a {
+    color: #1d4ed8 !important;
+}
+
+[data-testid="stFileUploaderFile"] svg {
+    fill: #1e293b !important;
+    color: #1e293b !important;
+}
+
+/* Strong override for the uploaded-file preview */
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] > div {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #1e293b !important;
+    border-color: #dbe3ef !important;
+}
+
+/* Keep the filename and file size readable */
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] *,
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFileName"],
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFileDetails"] {
+    color: #1e293b !important;
+}
+
+/* Override dark backgrounds on nested elements */
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] div,
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] span {
+    background-color: transparent !important;
+}
+
+/* Preserve a light file-preview card */
+[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
+    border: 1px solid #dbe3ef !important;
+    border-radius: 10px !important;
+}
+
+/* Fix uploaded PDF filename chip */
+[data-testid="stFileChip"] {
+    background-color: #ffffff !important;
+    color: #1e293b !important;
+    border: 1px solid #dbe3ef !important;
+    border-radius: 10px !important;
+}
+
+[data-testid="stFileChip"] * {
+    color: #1e293b !important;
+}
+
+[data-testid="stFileChip"] svg {
+    color: #1e293b !important;
+    fill: #1e293b !important;
+}
+
+/* High-contrast workflow section labels */
+.section-label {
+    display: inline-block !important;
+    background-color: #DBEAFE !important;
+    color: #1D4ED8 !important;
+    padding: 6px 12px !important;
+    border: 1px solid #BFDBFE !important;
+    border-radius: 8px !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    letter-spacing: 1px !important;
+    margin-bottom: 8px !important;
+    opacity: 1 !important;
+}
+
+/* Make section headings readable on the light theme */
+h1, h2, h3 {
+    color: #172554 !important;
+    opacity: 1 !important;
+}
+
+/* Fix invoice review form text contrast */
+[data-testid="stForm"] label,
+[data-testid="stForm"] label p,
+[data-testid="stWidgetLabel"] p,
+[data-testid="stWidgetLabel"] label {
+    color: #172554 !important;
+    font-weight: 600 !important;
+    opacity: 1 !important;
+}
+
+/* Make entered invoice values readable */
+[data-testid="stForm"] input,
+[data-testid="stForm"] textarea,
+[data-testid="stForm"] [data-baseweb="input"] input {
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+}
+
+/* Fix placeholders */
+[data-testid="stForm"] input::placeholder,
+[data-testid="stForm"] textarea::placeholder {
+    color: #64748b !important;
+    -webkit-text-fill-color: #64748b !important;
+    opacity: 1 !important;
+}
+
+
 </style>
 """, unsafe_allow_html=True)
+
 
 
 # ---------- SAMPLE DATA ----------
@@ -251,12 +646,37 @@ else:
     metric_total = format_amount(current_data.get("total"))
     metric_issues = str(len(current_errors))
 
+
 c1, c2, c3, c4 = st.columns(4)
 
-c1.metric("Document status", metric_status)
-c2.metric("Vendor", metric_vendor)
-c3.metric("Invoice total", metric_total)
-c4.metric("Validation issues", metric_issues)
+with c1:
+    st.markdown("##### Document status")
+    if metric_status == "Valid":
+        st.success("✓ Valid")
+    elif metric_status == "Needs review":
+        st.warning("⚠ Needs review")
+    else:
+        st.info("Waiting for invoice")
+
+with c2:
+    st.markdown("##### Vendor")
+    st.markdown(f"**{metric_vendor}**")
+
+with c3:
+    st.markdown("##### Invoice total")
+    st.markdown(f"**{metric_total}**")
+
+with c4:
+    st.markdown("##### Validation issues")
+    if metric_issues == "—":
+        st.markdown("**—**")
+    elif metric_issues == "0":
+        st.success("0 issues")
+    else:
+        st.warning(f"{metric_issues} issues")
+
+st.divider()
+
 
 st.divider()
 
@@ -314,12 +734,16 @@ if uploaded_file:
         st.session_state.reviewed = False
         st.rerun()
 
+
 st.markdown(
-    '<div class="note">You can use the sample invoice from the sidebar '
-    'to test the review, validation, and export workflow. '
-    'Real PDF extraction will be enabled during backend integration.</div>',
+    '<div class="note">Upload an invoice PDF to extract data using AI. '
+    'Review the extracted fields, correct any errors, validate the invoice, '
+    'and download the results as JSON or CSV. '
+    'You can also load the sample invoice to explore the workflow.</div>',
     unsafe_allow_html=True,
 )
+
+
 
 # ---------- REVIEW ----------
 if st.session_state.invoice_data is not None:
@@ -389,38 +813,76 @@ if st.session_state.invoice_data is not None:
         st.session_state.reviewed = True
         st.rerun()
 
+    
+    
     # Refresh data after a possible save
     data = st.session_state.invoice_data
     errors = validate_invoice(data)
 
-    # ---------- VALIDATION ----------
+    if st.session_state.reviewed:
+        st.success("✓ Invoice reviewed and saved successfully.")
+    else:
+        st.caption("📝 Review the extracted fields and save your changes.")
+
+
+
+
+# ---------- VALIDATION ----------
     st.divider()
-    st.markdown('<div class="section-label">Step 03</div>',
-                unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-label">Step 03</div>',
+        unsafe_allow_html=True,
+    )
     st.subheader("Validation results")
 
     if errors:
         st.warning(
-            f"{len(errors)} validation issue(s) found. "
-            "Review the messages below."
+            f"Found {len(errors)} issue(s). "
+            "Please review the details below and correct the invoice."
         )
 
         for error in errors:
-            st.markdown(f"- {error}")
+            st.markdown(
+                f"""
+                <div style="
+                    background-color: #FFF7ED;
+                    border: 1px solid #FED7AA;
+                    border-left: 4px solid #EA580C;
+                    border-radius: 8px;
+                    padding: 10px 14px;
+                    margin: 8px 0;
+                    color: #9A3412;
+                ">⚠️ {error}</div>
+                """,
+                unsafe_allow_html=True,
+            )
     else:
-        st.success("All current validation checks passed.")
+        st.success(
+            "✓ All validation checks passed. The invoice is valid."
+        )
 
     if st.session_state.reviewed:
         st.caption("Your latest form submission has been saved.")
 
+
     # ---------- EXPORT ----------
+   
+    
     st.divider()
-    st.markdown('<div class="section-label">Step 04</div>',
-                unsafe_allow_html=True)
-    st.subheader("Export reviewed data")
-    st.caption(
-        "Exports use the current saved values, including any corrections."
+    st.markdown(
+        '<div class="section-label">Step 04</div>',
+        unsafe_allow_html=True,
     )
+    st.subheader("Export reviewed data")
+
+    can_export = st.session_state.reviewed and not errors
+
+    if can_export:
+        st.success("Invoice reviewed and validated. Ready to export.")
+    elif not st.session_state.reviewed:
+        st.info("Save the reviewed invoice before exporting.")
+    else:
+        st.warning("Fix all validation issues before exporting.")
 
     json_data = json.dumps(
         data,
@@ -440,6 +902,7 @@ if st.session_state.invoice_data is not None:
             file_name="invoice.json",
             mime="application/json",
             use_container_width=True,
+            disabled=not can_export,
         )
 
     with col2:
@@ -449,20 +912,9 @@ if st.session_state.invoice_data is not None:
             file_name="invoice.csv",
             mime="text/csv",
             use_container_width=True,
+            disabled=not can_export,
         )
 
-    if errors:
-        st.info(
-            "This invoice still has validation issues. "
-            "You can download it for review, but it is not yet validated."
-        )
-
-else:
-    st.divider()
-    st.info(
-        "No invoice loaded yet. Click 'Load sample invoice' "
-        "in the sidebar to explore the workspace."
-    )
 
 # ---------- FOOTER ----------
 st.divider()
